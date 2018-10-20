@@ -1,0 +1,10 @@
+Game has different states:
+	1. Main Menu:
+		-has start button, disappears when clicked
+		-settings button, change setting of game in a new menu
+	2.Setting Menu:
+		-allows customization of game
+	2.Game
+		-actual game to be played
+
+All codes for each state is in a different class
