@@ -19,19 +19,27 @@ public class Game implements Runnable{
     public int width, height;
     public String title;
 
+    private KeyManager keyManager;
+
     //States
     private State gameState;
+    private State menuState;
+    private State settingState;
 
 
     public Game(String title, int width, int height){
         this.width = width;
         this.height = height;
         this.title = title;
+        keyManager = new KeyManager();
     }
 
     //initializes graphics for the game
     private void init(){
         display = new Display(title, width, height);
+
+        //gets JFrame and adds a keylistener to access keyboard
+        display.getFrame().addKeyListener(keyManager);
         //initialize all our assets
         Assets.init();
         //made sure to add the folder with the image into you library for the project
@@ -43,13 +51,17 @@ public class Game implements Runnable{
 
         //sets a state to a game state
         //all states are declared as a State but initialized to what they are
-        gameState = new GameState();
+        gameState = new GameState(this);
+        menuState = new MenuState(this);
+        settingState = new SettingState(this);
         //current state is now the game state
         State.setCurrentState(gameState);
     }
 
     //can also be called tick(), updates the game
     private void update(){
+        //VERY IMPORTANT
+        keyManager.update();
         //checks to make sure there is a current state
         if(State.getCurrentState() != null){
             //updates the state
@@ -154,6 +166,11 @@ public class Game implements Runnable{
 
         //just in case it doesn't stop the first time
         stop();
+    }
+
+    //allows other player to access the keymanager
+    public KeyManager getKeyManager(){
+        return keyManager;
     }
 
     /*

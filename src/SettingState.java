@@ -2,7 +2,8 @@ import java.awt.*;
 //settings menu state
 public class SettingState extends State {
 
-    public SettingState(){
+    public SettingState(Game game){
+        super(game);
 
     }
 
