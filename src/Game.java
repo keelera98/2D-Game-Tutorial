@@ -16,10 +16,16 @@ public class Game implements Runnable{
     //private BufferedImage testImage2;
     //private BufferedImage testSprite;
     //private SpriteSheet sheet;
-    public int width, height;
+    private int width, height;
     public String title;
 
     private KeyManager keyManager;
+
+    //Camera
+    private GameCamera gameCamera;
+
+    //Handler
+    private Handler handler;
 
     //States
     private State gameState;
@@ -42,6 +48,9 @@ public class Game implements Runnable{
         display.getFrame().addKeyListener(keyManager);
         //initialize all our assets
         Assets.init();
+
+        gameCamera = new GameCamera(this, 0, 0);
+        handler = new Handler(this);
         //made sure to add the folder with the image into you library for the project
         //file -> project structure -> library -> add class folder
         //testImage = ImageLoader.loadImage("/textures/download.jpg");
@@ -51,9 +60,9 @@ public class Game implements Runnable{
 
         //sets a state to a game state
         //all states are declared as a State but initialized to what they are
-        gameState = new GameState(this);
-        menuState = new MenuState(this);
-        settingState = new SettingState(this);
+        gameState = new GameState(handler);
+        menuState = new MenuState(handler);
+        settingState = new SettingState(handler);
         //current state is now the game state
         State.setCurrentState(gameState);
     }
@@ -158,7 +167,7 @@ public class Game implements Runnable{
 
             //if the timer has reaches 1 seconds print the amount of ticks
             if(timer >= 1000000000){
-                System.out.println("Ticks and Frames: " + ticks);
+                //System.out.println("Ticks and Frames: " + ticks);
                 ticks = 0;
                 timer = 0;
             }
@@ -173,6 +182,9 @@ public class Game implements Runnable{
         return keyManager;
     }
 
+    public GameCamera getGameCamera(){
+        return gameCamera;
+    }
     /*
      The game loop:
         updates variables and positions of objections,
@@ -201,5 +213,13 @@ public class Game implements Runnable{
             } catch (Exception e) {
             }
         }
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

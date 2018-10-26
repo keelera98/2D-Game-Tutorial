@@ -7,11 +7,17 @@ public class GameState extends State{
 
     private World world;
 
-    public GameState(Game game){
-        super(game);
+    public GameState(Handler handler){
+        super(handler);
+
+        world = new World(handler, "res/worlds/world1.txt");
+
+        //passes the world through the handler
+        handler.setWorld(world);
         //places the player
-        player = new Player(game, 100, 100);
-        world = new World("res/worlds/world1.txt");
+        player = new Player(handler, 100, 100);
+
+        handler.getGameCamera().move(100, 200);
     }
 
     public void update(){
@@ -19,6 +25,7 @@ public class GameState extends State{
         world.update();
         //calls update method for player
         player.update();
+
     }
 
     public void render(Graphics g){

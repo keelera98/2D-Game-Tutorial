@@ -14,9 +14,9 @@ public abstract class Creature extends Entity {
     protected float xmove, ymove;
 
 
-    public Creature(float x, float y, int width, int height){
+    public Creature(Handler handler, float x, float y, int width, int height){
         //passes the x and y to the parent class constructor
-        super(x, y, width, height);
+        super(handler, x, y, width, height);
         health = DEFAULT_HEALTH;
         speed = DEFUALT_SPEED;
         xmove = 0;

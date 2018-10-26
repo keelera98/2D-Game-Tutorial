@@ -8,8 +8,10 @@ public abstract class Entity {
     protected float y;
     //used to change sizes of images
     protected int width, height;
+    protected Handler handler;
 
-    public Entity(float x, float y, int width, int height){
+    public Entity(Handler handler, float x, float y, int width, int height){
+        this.handler = handler;
         this.x = x;
         this.y = y;
         this.height = height;

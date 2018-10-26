@@ -7,9 +7,11 @@ public class World {
     private int width, height;
     //holds tile id's
     private int[][] tiles;
+    private Handler handler;
 
     //this is not randomly generates it needs a file to load a world
-    public World(String path){
+    public World(Handler handler, String path){
+        this.handler = handler;
         loadWorld(path);
     }
 
@@ -18,12 +20,23 @@ public class World {
     }
 
     public void render(Graphics g){
-        for(int y = 0; y < height; y++){
-            for(int x = 0; x < width; x++){
+        //this will only render what the player can see
+        //max gets what is bigger of two numbers, from 0 to whatever the max tile number the player
+        //can see
+        int xStart = (int)Math.max(0, handler.getGameCamera().getxOffset() / Tile.TILEWIDTH);
+        int xEnd = (int)Math.min(width, (handler.getGameCamera().getxOffset() + handler.getWidth()) / Tile.TILEWIDTH + 1);
+        int yStart = (int)Math.max(0, handler.getGameCamera().getyOffset() / Tile.TILEHEIGHT);
+        int yEnd = (int)Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight()) / Tile.TILEHEIGHT + 1);
+
+        for(int y = yStart; y < yEnd; y++){
+            for(int x = xStart; x < xEnd; x++){
                 //multiplies to get larger sizes so the tiles don't spawn on each other
-                getTile(x, y).render(g, x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT);
+                //subtracts the offset from the rendered game to move the tiles
+                getTile(x, y).render(g, (int)(x * Tile.TILEWIDTH - handler.getGameCamera().getxOffset()),
+                        (int)(y * Tile.TILEHEIGHT - handler.getGameCamera().getyOffset()));
             }
         }
+
     }
 
     public Tile getTile(int x, int y){
@@ -31,7 +44,7 @@ public class World {
         Tile t = Tile.tiles[tiles[x][y]];
         //in case there is a null, tile just load a dirt tile
         if(t == null){
-            return Tile.dirtTile;
+            return Tile.rockTile;
         }
         return t;
     }
@@ -47,6 +60,7 @@ public class World {
             for(int y = 0; y < height; y++){
                 tiles[x][y] = 1;
             }
+
         }*/
 
         String file = Utils.loadFileAsString(path);

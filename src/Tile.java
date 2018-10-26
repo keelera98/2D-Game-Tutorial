@@ -12,6 +12,7 @@ public class Tile {
     public static Tile grassTile = new GrassTile(0);
     public static Tile dirtTile = new DirtTile(1);
     public static Tile treeTile = new TreeTile(2);
+    public static Tile rockTile = new RockTile(3);
     //CLASS
 
     //size of a tile
@@ -35,6 +36,7 @@ public class Tile {
     }
 
     public void render(Graphics g, int x, int y){
+
         g.drawImage(texture, x, y, TILEWIDTH, TILEHEIGHT, null);
     }
 

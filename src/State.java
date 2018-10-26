@@ -15,11 +15,14 @@ public abstract class State {
         return currentState;
     }
 
+    protected Handler handler;
+
     //NOTHING TO DO WITH GAME STATE MANAGER
     protected Game game;
 
-    public State(Game game){
-        this.game = game;
+    public State(Handler handler){
+
+        this.handler = handler;
     }
 
     public abstract void update();

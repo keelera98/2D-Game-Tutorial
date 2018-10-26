@@ -26,7 +26,7 @@ public class KeyManager implements KeyListener {
     public void keyPressed(KeyEvent e){
         //gets key code for the key presses and sets to true, this how we know if a key was pressed
         keys[e.getKeyCode()] = true;
-        System.out.println("Pressed");
+        //System.out.println("Pressed");
     }
 
     //called when a user lets go of a key

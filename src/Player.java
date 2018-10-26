@@ -2,17 +2,16 @@ import java.awt.*;
 
 public class Player extends Creature{
 
-    private Game game;
-
-    public Player(Game game, float x, float y){
-        super(x, y, Creature.DEFUALT_CREATURE_WIDTH, Creature.DEFUALT_CREATURE_HEIGHT);
-        this.game = game;
+    public Player(Handler handler, float x, float y){
+        super(handler, x, y, Creature.DEFUALT_CREATURE_WIDTH, Creature.DEFUALT_CREATURE_HEIGHT);
     }
 
     public void update(){
         //changes speed
         getInput();
         move();
+        //centers camera on this player
+        handler.getGameCamera().centerOnEntity(this);
     }
 
     //this actually moves the player
@@ -20,24 +19,26 @@ public class Player extends Creature{
         xmove = 0;
         ymove = 0;
 
-        if(game.getKeyManager().up){
+        if(handler.getKeyManager().up){
             //sets the ymove to move up
             ymove = -speed;
         }
-        if(game.getKeyManager().down){
+        if(handler.getKeyManager().down){
             ymove = speed;
         }
-        if(game.getKeyManager().left){
+        if(handler.getKeyManager().left){
             xmove = -speed;
         }
-        if(game.getKeyManager().right){
+        if(handler.getKeyManager().right){
             xmove = speed;
         }
 
     }
 
     public void render(Graphics g){
-        g.drawImage(Assets.player, (int)x, (int)y, width, height, null);
+
+        g.drawImage(Assets.player, (int)(x - handler.getGameCamera().getxOffset()),
+                (int)(y - handler.getGameCamera().getyOffset()), width, height, null);
     }
 
 }
